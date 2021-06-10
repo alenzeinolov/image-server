@@ -74,8 +74,8 @@ const main = async () => {
     });
   });
 
-  app.listen(80, () => {
-    console.log("Listening at http://localhost");
+  app.listen(5000, () => {
+    console.log("Listening at http://localhost:5000");
   });
 };
 
