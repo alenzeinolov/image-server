@@ -1,8 +1,9 @@
 import express from "express";
 import basicAuth from "express-basic-auth";
-import { connect } from "mongoose";
 import multer from "multer";
 import { v4 as uuidv4 } from "uuid";
+
+const FINAL_UPLOAD_PATH = __dirname + process.env.UPLOAD_PATH;
 
 class APIError extends Error {
   constructor(message, statusCode) {
@@ -19,7 +20,7 @@ const ACCEPTED_FILE_TYPES = {
 };
 
 const storage = multer.diskStorage({
-  destination: process.env.UPLOAD_PATH,
+  destination: FINAL_UPLOAD_PATH,
   filename: (req, file, cb) => {
     const filename = `${uuidv4()}.${ACCEPTED_FILE_TYPES[file.mimetype]}`;
     cb(null, filename);
@@ -43,13 +44,8 @@ const upload = multer({
 });
 
 const main = async () => {
-  await connect(process.env.MONGO_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  });
-
   const app = express();
-  app.use(express.static(process.env.UPLOAD_PATH));
+  app.use(express.static(FINAL_UPLOAD_PATH));
 
   app.post(
     "/upload",
