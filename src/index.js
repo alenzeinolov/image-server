@@ -48,7 +48,7 @@ const main = async () => {
   app.use(express.static(FINAL_UPLOAD_PATH));
 
   app.post(
-    "/upload",
+    "/",
     basicAuth({
       users: { [process.env.BA_USERNAME]: process.env.BA_PASSWORD },
     }),
