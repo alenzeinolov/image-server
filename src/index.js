@@ -28,7 +28,7 @@ const storage = multer.diskStorage({
 const uploadFilter = (req, file, cb) => {
   console.log("File:", file.mimetype);
   if (!Object.keys(ACCEPTED_FILE_TYPES).includes(file.mimetype)) {
-    cb(new APIError("This mimetype is not allowed.", 400));
+    cb(new APIError("This mimetype is not allowed.", 400), false);
   }
 
   cb(null, true);
