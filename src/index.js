@@ -25,10 +25,10 @@ const storage = multer.diskStorage({
   },
 });
 
-const fileFilter = (req, file, cb) => {
+const uploadFilter = (req, file, cb) => {
   console.log("File:", file.mimetype);
   if (!Object.keys(ACCEPTED_FILE_TYPES).includes(file.mimetype)) {
-    cb(null, false, new APIError("This mimetype is not allowed.", 400));
+    cb(new APIError("This mimetype is not allowed.", 400));
   }
 
   cb(null, true);
@@ -39,7 +39,7 @@ const upload = multer({
   limits: {
     fileSize: 10 * MB, // 10 megabytes
   },
-  fileFilter,
+  fileFilter: uploadFilter,
 });
 
 const main = async () => {
